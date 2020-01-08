@@ -11,19 +11,19 @@ const Board = () => {
 
   return (
     <div className='board'>
-    <div className='frame'>
-      {
-        field.map((row: [], i: number) =>
-          <div className='row' key={i}>
-            {
-              row.map((block: IBlock, j: number) =>
-                <Block block={block} key={j} />
-              )
-            }
-          </div>
-        )
-      }
-    </div>
+      <div className='frame'>
+        {
+          field.map((row: [], i: number) =>
+            <div className='row' key={i}>
+              {
+                row.map((block: IBlock, j: number) =>
+                  <Block block={block} key={j} />
+                )
+              }
+            </div>
+          )
+        }
+      </div>
     </div>
   )
 };

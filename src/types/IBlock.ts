@@ -5,6 +5,6 @@ enum blockState {
 }
 
 export interface IBlock {
-  state: blockState;
+  state: blockState | null;
   minesCount?: number
 }
