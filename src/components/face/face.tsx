@@ -9,8 +9,8 @@ type FaceProps = {
 
 const Face: FunctionComponent<FaceProps> = ({ handleClick }) => {
   const {AppStore} = useStores();
-  const { gameOver } = AppStore;
-  return (<div onClick={handleClick} className={`face${gameOver ? ' face--game-over' : ''}`} />)
+  const { win, gameOver } = AppStore;
+  return (<div onClick={handleClick} className={`face${win ? ' face--win': ''}${gameOver ? ' face--game-over' : ''}`} />)
 };
 
 export default observer(Face);

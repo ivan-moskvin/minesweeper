@@ -1,0 +1,20 @@
+@font-face {
+   font-family: 'digit';
+   src: url('./digit.ttf') format("truetype");
+}
+
+.counter {
+   $bdw: 1px;
+   min-width: 40px;
+   height: 56px;
+   padding: 4px;
+   font-size: 70px;
+   text-align: center;
+   color: #f21100;
+   font-family: 'digit', monospaced, serif;
+   background-color: #000000;
+   border-top: $bdw rgb(127, 127, 127) solid;
+   border-left: $bdw rgb(127, 127, 127) solid;
+   border-bottom: $bdw #FFF solid;
+   border-right: $bdw #FFF solid;
+}

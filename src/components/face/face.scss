@@ -1,10 +1,8 @@
 .face {
    $w: 40px;
    $border-width: 4px;
-   display: flex;
    width: $w;
    height: $w;
-   margin-bottom: 20px;
 
    padding: 4px;
    border-left: $border-width #FFF solid;
@@ -22,6 +20,9 @@
 	  border-top: $border-width rgb(127, 127, 127) solid;
 	  border-left: $border-width rgb(127, 127, 127) solid;
 	  background-image: url('../../icons/smiley2.png');
+   }
+   &--win {
+	background-image: url('../../icons/smiley.png');
    }
 
    &--game-over {
