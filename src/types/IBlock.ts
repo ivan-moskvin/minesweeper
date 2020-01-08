@@ -1,10 +1,5 @@
-enum blockState {
-  'empty',
-  'mine',
-  'closeToMine'
-}
-
 export interface IBlock {
-  state: blockState | null;
+  opened: boolean;
+  state: 'empty' | 'mine' | 'closeToMine' | null;
   minesCount?: number
 }

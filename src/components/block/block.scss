@@ -1,18 +1,69 @@
 .block {
-   display : flex;
-   width : 20px;
-   height : 20px;
+   display: flex;
+   width: 20px;
+   height: 20px;
 
-   border-left: 2px #FFF solid;
-   border-top: 2px #FFF solid;
-   border-right: 2px rgb(127, 127, 127) solid;
-   border-bottom: 2px rgb(127, 127, 127) solid;
-   background-position: 0 0;
+   background-position: center center;
    background-repeat: no-repeat;
    background-color: rgb(192, 192, 192);
-   background-size: cover;
+   background-size: calc(20px - 1px);
+
+
+   justify-content: center;
+   font-weight: bold;
+   font-family: Consolas, 'Liberation Mono', Menlo, Courier, monospace;
+
+   &.opened {
+	  border: 1px #808080 solid;
+	  padding: 3px;
+   }
+
+   &.closed {
+	  $border-width: 3px;
+	  padding: 1px;
+	  border-left: $border-width #FFF solid;
+	  border-top: $border-width #FFF solid;
+	  border-right: $border-width rgb(127, 127, 127) solid;
+	  border-bottom: $border-width rgb(127, 127, 127) solid;
+   }
 
    &.mine {
 	  background-image: url('./icons/mine.png');
+   }
+
+   &.zero {
+	  color: transparent;
+   }
+
+   &.one {
+	  color: #012cfe;
+   }
+
+   &.two {
+	  color: #017f01;
+   }
+
+   &.three {
+	  color: #fe1300;
+   }
+
+   &.four {
+	  color: #01117f;
+   }
+
+   &.five {
+	  color: #810502;
+   }
+
+   &.six {
+	  color: #008081;
+   }
+
+   &.seven {
+	  color: #000;
+   }
+
+   &.eight {
+	  color: #808080;
    }
 }

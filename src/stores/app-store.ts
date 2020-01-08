@@ -1,9 +1,9 @@
-import {action, observable, toJS} from 'mobx';
+import {action, observable} from 'mobx';
 
 class AppStore {
   COLS = 20;
   ROWS = 20;
-  MAX_MINES = 10;
+  MAX_MINES = 20;
 
   @observable field: any[] = [];
 
@@ -13,14 +13,14 @@ class AppStore {
     for (let i = 0; i < ROWS; i++) {
       field.push([]);
       for (let j = 0; j < COLS; j++) {
-        field[i].push({state: null})
+        field[i].push({opened: true, state: 'empty'})
       }
     }
   }
 
   @action.bound
   placeMines() {
-    const {MAX_MINES, ROWS, COLS, getRandomInt, field} = this;
+    const {MAX_MINES, ROWS, COLS, field} = this;
     for (let i = 0; i < MAX_MINES; i++) {
       const [randomRow, randomCol] = getClearCoords();
 
@@ -28,11 +28,11 @@ class AppStore {
     }
 
     function getClearCoords(): [number, number] {
-      let x = getRandomInt(ROWS);
-      let y = getRandomInt(COLS);
-      while(field[x][y].state != null) {
-        x = getRandomInt(ROWS);
-        y = getRandomInt(COLS);
+      let x = AppStore.getRandomInt(ROWS);
+      let y = AppStore.getRandomInt(COLS);
+      while(field[x][y].state != 'empty') {
+        x = AppStore.getRandomInt(ROWS);
+        y = AppStore.getRandomInt(COLS);
       }
       return [x, y]
     }
@@ -40,10 +40,44 @@ class AppStore {
 
   @action.bound
   placeNumbers() {
+    const {COLS, ROWS, field} = this;
+    for (let i = 0; i < ROWS; i++) {
+      for (let j = 0; j < COLS; j++) {
+        if(field[i][j].state === 'mine') continue;
+        field[i][j].minesCount = countMines(i, j);
+        if(field[i][j].minesCount > 0) {
+          field[i][j].state = 'closeToMine';
+        }
+      }
+    }
 
+    function countMines(i: number, j: number): number {
+      let count = 0;
+      const coords = [
+        [i - 1, j - 1],
+        [i, j - 1],
+        [i + 1, j - 1],
+        [i - 1, j],
+        [i, j],
+        [i + 1, j],
+        [i - 1, j + 1],
+        [i, j + 1],
+        [i + 1, j + 1],
+      ];
+
+      coords.forEach(([i, j]) => {
+        if(field?.[i]?.[j]) {
+          if(field[i][j].state === 'mine') {
+            count++;
+          }
+        }
+      });
+
+      return count;
+    }
   }
 
-  private getRandomInt(max: number): number {
+  private static getRandomInt(max: number): number {
     return Math.floor(Math.random() * Math.floor(max));
   }
 
