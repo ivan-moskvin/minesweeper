@@ -34,6 +34,11 @@ $border-width: 3px;
 	  padding: 3px;
    }
 
+   &.destroyed {
+	  background-image: url('../../icons/mine3.png');
+	  background-color: #fe1300;
+   }
+
    &.closed {
 	  padding: 1px;
 	  @include withNormalBorder;
@@ -49,6 +54,11 @@ $border-width: 3px;
 
    &.marked {
 	  background-image: url('../../icons/flag.png');
+
+	  &.closeToMine {
+		 background-image: url('../../icons/flag-wrong.png');
+		 font-size: 0;
+	  }
    }
 
 

@@ -6,7 +6,7 @@ const clearBlock: IBlock = {opened: false, state: 'empty', marked: false};
 class AppStore {
   COLS = 16;
   ROWS = 16;
-  MAX_MINES = 15;
+  MAX_MINES = 20;
 
   @observable field: any[] = [];
   @observable gameOver: boolean = false;
@@ -155,8 +155,9 @@ class AppStore {
       // В режиме маркировки можно открыть
       // все оставшиеся по цифре и количеству соседних мин
       if (
-        currentField.state === 'closeToMine'
-        && haveMarkedAround(i, j)
+        currentField.opened
+        && currentField.state === 'closeToMine'
+        && haveEnoughMarkedAround(i, j)
       ) {
         openRest(i, j);
 
@@ -190,6 +191,7 @@ class AppStore {
       if (currentField.state === 'mine') {
         openField();
         setGameOver(true);
+        currentField.state = 'destroyed';
         return;
       }
 
@@ -198,12 +200,13 @@ class AppStore {
     }
 
     /**
-     * В окрестностях есть отмеченные флажком мины
+     * В окрестностях есть достаточное количество отмеченных флажком мин
      * @param i
      * @param j
      */
-    function haveMarkedAround(i: number, j: number): boolean {
-      return [
+    function haveEnoughMarkedAround(i: number, j: number): boolean {
+      let count = 0;
+      [
         [i - 1, j - 1],
         [i, j - 1],
         [i + 1, j - 1],
@@ -213,10 +216,14 @@ class AppStore {
         [i - 1, j + 1],
         [i, j + 1],
         [i + 1, j + 1],
-      ].some(([k, l]) => {
+      ].forEach(([k, l]) => {
         const currentField = field?.[k]?.[l];
-        return currentField && currentField.marked
+        if(currentField && currentField.marked) {
+          count++;
+        }
       });
+
+      return field[i][j].minesCount === count;
     }
 
     /**
@@ -287,6 +294,9 @@ class AppStore {
   @action.bound
   setGameOver(state: boolean) {
     this.gameOver = state;
+    if(state) {
+      clearInterval(this.startTimeout);
+    }
   }
 
   private static getRandomInt(max: number): number {
