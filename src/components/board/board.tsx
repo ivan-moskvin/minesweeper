@@ -11,7 +11,7 @@ import Counter from '../counter/counter';
 const Board = () => {
   const isControlKeyPressed = useKeyPress('Shift');
   const {AppStore} = useStores();
-  const {minesCount, time, field, checkClosedBlock, restartGame, setMarkingState} = AppStore;
+  const {minesCount, time, field, win, gameOver, checkClosedBlock, restartGame, setMarkingState} = AppStore;
 
   setMarkingState(isControlKeyPressed);
 
@@ -20,7 +20,11 @@ const Board = () => {
       <div className='field'>
         <div className='board__header-row'>
           <Counter count={minesCount} />
-          <Face handleClick={restartGame} />
+          <Face
+            win={win}
+            gameOver={gameOver}
+            handleClick={restartGame}
+          />
           <Counter count={time / 1000} />
         </div>
         <div className='frame'>
@@ -28,9 +32,17 @@ const Board = () => {
             field.map((row: [], i: number) =>
               <div className='row' key={i}>
                 {
-                  row.map((block: IBlock, j: number) =>
-                    <Block handleClick={() => checkClosedBlock(i, j)} block={block} key={j} />
-                  )
+                  row.map((block: IBlock, j: number) => {
+                    const {state, opened, marked, minesCount = 0} = block;
+                    return (<Block
+                      handleClick={() => checkClosedBlock(i, j)}
+                      state={state}
+                      opened={opened}
+                      marked={marked}
+                      minesCount={minesCount}
+                      key={j}
+                    />)
+                  })
                 }
               </div>
             )

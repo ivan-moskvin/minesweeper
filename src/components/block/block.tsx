@@ -1,17 +1,24 @@
 import React from 'react';
 import {observer} from 'mobx-react';
 import './block.scss';
-import {IBlock} from "../../types/IBlock";
+import {IBlockState} from "../../types/IBlock";
 
 type BlockProps = {
-  block: IBlock;
-  handleClick: () => {};
+  opened: boolean;
+  marked: boolean;
+  minesCount: number;
+  state: IBlockState;
+  handleClick?: () => {};
 }
 
 const Block: React.FunctionComponent<BlockProps> = ({
-                                                      handleClick, block
+                                                      state,
+                                                      opened,
+                                                      marked,
+                                                      minesCount,
+                                                      handleClick
                                                     }) => {
-  const {state, opened, marked, minesCount = 0} = block;
+
 
   return (
     <div

@@ -1,15 +1,14 @@
 import React, {FunctionComponent} from 'react';
 import { observer } from 'mobx-react';
 import './face.scss';
-import {useStores} from "../../stores";
 
 type FaceProps = {
-  handleClick: () => {};
+  win: boolean;
+  gameOver: boolean;
+  handleClick?: () => {};
 }
 
-const Face: FunctionComponent<FaceProps> = ({ handleClick }) => {
-  const {AppStore} = useStores();
-  const { win, gameOver } = AppStore;
+const Face: FunctionComponent<FaceProps> = ({ win, gameOver, handleClick }) => {
   return (<div onClick={handleClick} className={`face${win ? ' face--win': ''}${gameOver ? ' face--game-over' : ''}`} />)
 };
 

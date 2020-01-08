@@ -1,6 +1,8 @@
+export type IBlockState = 'empty' | 'mine' | 'closeToMine' | null;
+
 export interface IBlock {
   opened: boolean;
   marked: boolean; // Marked with flag
-  state: 'empty' | 'mine' | 'closeToMine' | null;
+  state: IBlockState;
   minesCount?: number
 }
