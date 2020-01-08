@@ -1,0 +1,23 @@
+.board {
+   display: flex;
+   flex-flow: row wrap;
+   align-content: center;
+   justify-content: center;
+   min-width: 520px;
+   min-height: 100vh;
+   background-color: #c0c0c0;
+   padding: 12px;
+}
+
+.frame {
+   $bdw: 5px;
+   border-top: $bdw rgb(127, 127, 127) solid;
+   border-left: $bdw rgb(127, 127, 127) solid;
+   border-bottom: $bdw #FFF solid;
+   border-right: $bdw #FFF solid;
+}
+
+.row {
+   display: flex;
+   flex-flow: row wrap;
+}

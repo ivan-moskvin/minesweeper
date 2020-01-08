@@ -1,0 +1,18 @@
+.block {
+   display : flex;
+   width : 20px;
+   height : 20px;
+
+   border-left: 2px #FFF solid;
+   border-top: 2px #FFF solid;
+   border-right: 2px rgb(127, 127, 127) solid;
+   border-bottom: 2px rgb(127, 127, 127) solid;
+   background-position: 0 0;
+   background-repeat: no-repeat;
+   background-color: rgb(192, 192, 192);
+   background-size: cover;
+
+   &.mine {
+	  background-image: url('./icons/mine.png');
+   }
+}

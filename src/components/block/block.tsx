@@ -1,10 +1,16 @@
 import React from 'react';
-import './block.css';
+import './block.scss';
+import {IBlock} from "../../types/IBlock";
 
-const Block = () => {
+type BlockProps = {
+  block: IBlock
+}
+
+const Block: React.FunctionComponent<BlockProps> = ({ block }) => {
+  const { state } = block;
+
   return (
-    <div className='block'>
-    </div>
+    <div className={`block ${state}`} />
   )
 };
 

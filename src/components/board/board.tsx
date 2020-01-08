@@ -1,20 +1,31 @@
 import React from 'react';
+import {observer} from 'mobx-react';
 import Block from '../block/block';
-import './board.css';
-
-const cols = 20;
-const rows = 20;
+import './board.scss';
+import {useStores} from "../../stores";
+import {IBlock} from "../../types/IBlock";
 
 const Board = () => {
+  const {AppStore} = useStores();
+  const {field} = AppStore;
+
   return (
     <div className='board'>
-      {[...Array(cols)].map(() => {
-        return <div className='row'>{[...Array(rows)].map(() => {
-          return <Block />
-        })}</div>
-      })}
+    <div className='frame'>
+      {
+        field.map((row: [], i: number) =>
+          <div className='row' key={i}>
+            {
+              row.map((block: IBlock, j: number) =>
+                <Block block={block} key={j} />
+              )
+            }
+          </div>
+        )
+      }
+    </div>
     </div>
   )
 };
 
-export default Board;
+export default observer(Board);
