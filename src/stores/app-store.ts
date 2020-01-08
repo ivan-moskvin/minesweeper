@@ -6,7 +6,7 @@ const clearBlock: IBlock = {opened: false, state: 'empty', marked: false};
 class AppStore {
   COLS = 16;
   ROWS = 16;
-  MAX_MINES = 5;
+  MAX_MINES = 15;
 
   @observable field: any[] = [];
   @observable gameOver: boolean = false;
@@ -118,6 +118,7 @@ class AppStore {
     this.gameOver = false;
     this.win = false;
     this.time = 0;
+    this.minesCount = this.MAX_MINES;
     this.clearField();
     this.placeMines();
     this.placeNumbers();
