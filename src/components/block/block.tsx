@@ -1,16 +1,22 @@
 import React from 'react';
+import {observer} from 'mobx-react';
 import './block.scss';
 import {IBlock} from "../../types/IBlock";
 
 type BlockProps = {
-  block: IBlock
+  block: IBlock;
+  handleClick: () => {};
 }
 
-const Block: React.FunctionComponent<BlockProps> = ({ block }) => {
-  const { state, opened, minesCount = 0 } = block;
+const Block: React.FunctionComponent<BlockProps> = ({
+                                                      handleClick, block
+                                                    }) => {
+  const {state, opened, minesCount = 0} = block;
 
   return (
-    <div className={`block ${opened ? `opened ${state} ${convertToWords(minesCount)}` : 'closed'}`}>
+    <div
+      onClick={handleClick}
+      className={`block ${opened ? `opened ${state} ${convertToWords(minesCount)}` : 'closed'}`}>
       {opened && minesCount > 0 && minesCount}
     </div>
   );
@@ -32,4 +38,4 @@ const Block: React.FunctionComponent<BlockProps> = ({ block }) => {
   }
 };
 
-export default Block;
+export default observer(Block);

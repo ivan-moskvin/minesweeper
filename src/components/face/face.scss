@@ -1,0 +1,30 @@
+.face {
+   $w: 40px;
+   $border-width: 4px;
+   display: flex;
+   width: $w;
+   height: $w;
+   margin-bottom: 20px;
+
+   padding: 4px;
+   border-left: $border-width #FFF solid;
+   border-top: $border-width #FFF solid;
+   border-right: $border-width rgb(127, 127, 127) solid;
+   border-bottom: $border-width rgb(127, 127, 127) solid;
+   background-repeat: no-repeat;
+   background-position: center center;
+   background-size: $w - $border-width;
+   background-image: url('../../icons/smiley1.png');
+
+   &:active {
+	  border-bottom: $border-width #FFF solid;
+	  border-right: $border-width #FFF solid;
+	  border-top: $border-width rgb(127, 127, 127) solid;
+	  border-left: $border-width rgb(127, 127, 127) solid;
+	  background-image: url('../../icons/smiley2.png');
+   }
+
+   &--game-over {
+	  background-image: url('../../icons/smiley3.png');
+   }
+}

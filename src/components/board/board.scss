@@ -1,7 +1,7 @@
 .board {
    display: flex;
-   flex-flow: row wrap;
-   align-content: center;
+   flex-flow: column wrap;
+   align-items: center;
    justify-content: center;
    min-width: 520px;
    min-height: 100vh;

@@ -1,11 +1,15 @@
-import {action, observable} from 'mobx';
+import {action, observable, toJS} from 'mobx';
+import {IBlock} from "../types/IBlock";
+
+const clearBlock: IBlock = {opened: false, state: 'empty'};
 
 class AppStore {
-  COLS = 20;
-  ROWS = 20;
-  MAX_MINES = 20;
+  COLS = 16;
+  ROWS = 16;
+  MAX_MINES = 10;
 
   @observable field: any[] = [];
+  @observable gameOver: boolean = false;
 
   @action.bound
   generateField() {
@@ -13,7 +17,7 @@ class AppStore {
     for (let i = 0; i < ROWS; i++) {
       field.push([]);
       for (let j = 0; j < COLS; j++) {
-        field[i].push({opened: true, state: 'empty'})
+        field[i].push(clearBlock);
       }
     }
   }
@@ -74,6 +78,79 @@ class AppStore {
       });
 
       return count;
+    }
+  }
+
+  @action.bound
+  openField(){
+    const {COLS, ROWS, field} = this;
+    for (let i = 0; i < ROWS; i++) {
+      for (let j = 0; j < COLS; j++) {
+        field[i][j].opened = true;
+      }
+    }
+    console.log(toJS(field));
+  }
+
+  @action.bound
+  clearField(){
+    const {COLS, ROWS, field} = this;
+    for (let i = 0; i < ROWS; i++) {
+      for (let j = 0; j < COLS; j++) {
+        field[i][j] = clearBlock;
+      }
+    }
+  }
+
+  @action.bound
+  restartGame() {
+    this.gameOver = false;
+    this.clearField();
+    this.placeMines();
+    this.placeNumbers();
+  }
+
+  @action.bound
+  checkClosedBlock(i: number, j: number) {
+    const { field } = this;
+    if(this.field[i][j].state === 'mine') {
+      this.openField();
+      this.gameOver = true;
+      return;
+    }
+
+    openRecursive(i, j);
+
+
+    function openRecursive(i: number, j: number) {
+      if(!field?.[i]?.[j]
+        || field?.[i]?.[j].opened
+        || field?.[i]?.[j]?.state === 'mine') {
+        return;
+      }
+
+      field[i][j].opened = true;
+
+      const coords = [
+        [i - 1, j - 1],
+        [i, j - 1],
+        [i + 1, j - 1],
+        [i - 1, j],
+        [i, j],
+        [i + 1, j],
+        [i - 1, j + 1],
+        [i, j + 1],
+        [i + 1, j + 1],
+      ];
+
+      coords.forEach(([k, l]) => {
+        if(i == k && j == l) {
+          return;
+        }
+        if(field?.[i]?.[j].state === 'empty') {
+          openRecursive(k, l);
+        }
+      });
     }
   }
 

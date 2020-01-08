@@ -25,10 +25,17 @@
 	  border-top: $border-width #FFF solid;
 	  border-right: $border-width rgb(127, 127, 127) solid;
 	  border-bottom: $border-width rgb(127, 127, 127) solid;
+
+	  &:active {
+	    border-bottom: $border-width #FFF solid;
+	  	border-right: $border-width #FFF solid;
+	  	border-top: $border-width rgb(127, 127, 127) solid;
+	  	border-left: $border-width rgb(127, 127, 127) solid;
+	  }
    }
 
    &.mine {
-	  background-image: url('./icons/mine.png');
+	  background-image: url('../../icons/mine.png');
    }
 
    &.zero {
