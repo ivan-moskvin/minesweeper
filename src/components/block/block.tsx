@@ -11,12 +11,12 @@ type BlockProps = {
 const Block: React.FunctionComponent<BlockProps> = ({
                                                       handleClick, block
                                                     }) => {
-  const {state, opened, minesCount = 0} = block;
+  const {state, opened, marked, minesCount = 0} = block;
 
   return (
     <div
       onClick={handleClick}
-      className={`block ${opened ? `opened ${state} ${convertToWords(minesCount)}` : 'closed'}`}>
+      className={`block${marked ? ' marked' : ''} ${opened ? `opened ${state} ${convertToWords(minesCount)}` : 'closed'}`}>
       {opened && minesCount > 0 && minesCount}
     </div>
   );

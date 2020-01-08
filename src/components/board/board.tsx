@@ -5,10 +5,14 @@ import Face from '../face/face';
 import './board.scss';
 import {useStores} from "../../stores";
 import {IBlock} from "../../types/IBlock";
+import useKeyPress from "../../hooks/use-key-press";
 
 const Board = () => {
+  const isControlKeyPressed = useKeyPress('Shift');
   const {AppStore} = useStores();
-  const {field, checkClosedBlock, restartGame} = AppStore;
+  const {field, checkClosedBlock, restartGame, setMarkingState} = AppStore;
+
+  setMarkingState(isControlKeyPressed);
 
   return (
     <div className='board'>

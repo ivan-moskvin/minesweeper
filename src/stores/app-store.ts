@@ -1,7 +1,7 @@
 import {action, observable, toJS} from 'mobx';
 import {IBlock} from "../types/IBlock";
 
-const clearBlock: IBlock = {opened: false, state: 'empty'};
+const clearBlock: IBlock = {opened: false, state: 'empty', marked: false};
 
 class AppStore {
   COLS = 16;
@@ -10,6 +10,12 @@ class AppStore {
 
   @observable field: any[] = [];
   @observable gameOver: boolean = false;
+  @observable isMarking: boolean = false;
+
+  @action.bound
+  setMarkingState(state: boolean) {
+    this.isMarking = state;
+  }
 
   @action.bound
   generateField() {
@@ -34,7 +40,7 @@ class AppStore {
     function getClearCoords(): [number, number] {
       let x = AppStore.getRandomInt(ROWS);
       let y = AppStore.getRandomInt(COLS);
-      while(field[x][y].state != 'empty') {
+      while (field[x][y].state != 'empty') {
         x = AppStore.getRandomInt(ROWS);
         y = AppStore.getRandomInt(COLS);
       }
@@ -47,9 +53,9 @@ class AppStore {
     const {COLS, ROWS, field} = this;
     for (let i = 0; i < ROWS; i++) {
       for (let j = 0; j < COLS; j++) {
-        if(field[i][j].state === 'mine') continue;
+        if (field[i][j].state === 'mine') continue;
         field[i][j].minesCount = countMines(i, j);
-        if(field[i][j].minesCount > 0) {
+        if (field[i][j].minesCount > 0) {
           field[i][j].state = 'closeToMine';
         }
       }
@@ -70,8 +76,8 @@ class AppStore {
       ];
 
       coords.forEach(([i, j]) => {
-        if(field?.[i]?.[j]) {
-          if(field[i][j].state === 'mine') {
+        if (field?.[i]?.[j]) {
+          if (field[i][j].state === 'mine') {
             count++;
           }
         }
@@ -82,7 +88,7 @@ class AppStore {
   }
 
   @action.bound
-  openField(){
+  openField() {
     const {COLS, ROWS, field} = this;
     for (let i = 0; i < ROWS; i++) {
       for (let j = 0; j < COLS; j++) {
@@ -93,7 +99,7 @@ class AppStore {
   }
 
   @action.bound
-  clearField(){
+  clearField() {
     const {COLS, ROWS, field} = this;
     for (let i = 0; i < ROWS; i++) {
       for (let j = 0; j < COLS; j++) {
@@ -112,18 +118,30 @@ class AppStore {
 
   @action.bound
   checkClosedBlock(i: number, j: number) {
-    const { field } = this;
-    if(this.field[i][j].state === 'mine') {
-      this.openField();
-      this.gameOver = true;
+    const {field, isMarking} = this;
+
+    if(
+      field[i][j].opened
+      || (field[i][j].marked && !isMarking)) {
       return;
     }
 
-    openRecursive(i, j);
+    if (!isMarking) {
+      if (this.field[i][j].state === 'mine') {
+        this.openField();
+        this.gameOver = true;
+        return;
+      }
+
+      openRecursive(i, j);
+    } else {
+      field[i][j].marked = !field[i][j].marked;
+    }
 
 
     function openRecursive(i: number, j: number) {
-      if(!field?.[i]?.[j]
+      if (!field?.[i]?.[j]
+        || field?.[i]?.[j].marked
         || field?.[i]?.[j].opened
         || field?.[i]?.[j]?.state === 'mine') {
         return;
@@ -144,10 +162,10 @@ class AppStore {
       ];
 
       coords.forEach(([k, l]) => {
-        if(i == k && j == l) {
+        if (i == k && j == l) {
           return;
         }
-        if(field?.[i]?.[j].state === 'empty') {
+        if (field?.[i]?.[j].state === 'empty') {
           openRecursive(k, l);
         }
       });

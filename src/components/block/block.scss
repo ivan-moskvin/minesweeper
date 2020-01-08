@@ -1,3 +1,19 @@
+$border-width: 3px;
+
+@mixin withNormalBorder {
+   border-left: $border-width #FFF solid;
+   border-top: $border-width #FFF solid;
+   border-right: $border-width rgb(127, 127, 127) solid;
+   border-bottom: $border-width rgb(127, 127, 127) solid;
+}
+
+@mixin withActiveBorder {
+   border-left: $border-width rgb(127, 127, 127) solid;
+   border-top: $border-width rgb(127, 127, 127) solid;
+   border-right: $border-width #FFF solid;
+   border-bottom: $border-width #FFF solid;
+}
+
 .block {
    display: flex;
    width: 20px;
@@ -19,20 +35,22 @@
    }
 
    &.closed {
-	  $border-width: 3px;
 	  padding: 1px;
-	  border-left: $border-width #FFF solid;
-	  border-top: $border-width #FFF solid;
-	  border-right: $border-width rgb(127, 127, 127) solid;
-	  border-bottom: $border-width rgb(127, 127, 127) solid;
+	  @include withNormalBorder;
 
 	  &:active {
-	    border-bottom: $border-width #FFF solid;
-	  	border-right: $border-width #FFF solid;
-	  	border-top: $border-width rgb(127, 127, 127) solid;
-	  	border-left: $border-width rgb(127, 127, 127) solid;
+		 @include withActiveBorder;
+	  }
+
+	  &.marked {
+		 @include withNormalBorder;
 	  }
    }
+
+   &.marked {
+	  background-image: url('../../icons/flag.png');
+   }
+
 
    &.mine {
 	  background-image: url('../../icons/mine.png');
