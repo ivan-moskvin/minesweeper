@@ -1,19 +1,20 @@
 import {action, observable, toJS} from 'mobx';
 import {IBlock} from "../types/IBlock";
 import {DifficultyEnum, DifficultyLevel} from '../ enums';
+import {persist} from 'mobx-persist';
 
 const clearBlock: IBlock = {opened: false, state: 'empty', marked: false};
 
 class AppStore {
-  @observable difficulty: DifficultyLevel = DifficultyEnum.intermediate;
-  @observable field: any[] = [];
-  @observable gameOver: boolean = false;
-  @observable isMarking: boolean = false;
-  @observable win: boolean = false;
-  @observable gameStarted: boolean = false;
-  @observable minesCount: number = 0;
-  @observable time: number = 0;
-  startTimeout: any;
+  @persist('object') @observable difficulty: DifficultyLevel = DifficultyEnum.intermediate;
+  @persist('list') @observable field: any[] = [];
+  @persist @observable gameOver: boolean = false;
+  @persist @observable isMarking: boolean = false;
+  @persist @observable win: boolean = false;
+  @persist @observable gameStarted: boolean = false;
+  @persist @observable minesCount: number = 0;
+  @persist @observable time: number = 0;
+  @persist @observable startTimeout: any;
 
   @action.bound
   setDifficulty(difficulty: string = 'beginner') {
@@ -28,7 +29,7 @@ class AppStore {
 
   @action.bound
   generateField() {
-    const { difficulty: {cols, rows}, field} = this;
+    const {difficulty: {cols, rows}, field} = this;
     for (let i = 0; i < rows; i++) {
       field.push([]);
       for (let j = 0; j < cols; j++) {
@@ -39,7 +40,7 @@ class AppStore {
 
   @action.bound
   placeMines() {
-    const { difficulty: {mines, rows, cols}, field} = this;
+    const {difficulty: {mines, rows, cols}, field} = this;
     for (let i = 0; i < mines; i++) {
       const [randomRow, randomCol] = getClearCoords();
 
@@ -114,9 +115,18 @@ class AppStore {
     this.time = 0;
     this.minesCount = this.difficulty.mines;
     this.field = [];
+    this.gameStarted = false;
+    clearInterval(this.startTimeout);
     this.generateField();
     this.placeMines();
     this.placeNumbers();
+  }
+
+  @action.bound
+  startTimer() {
+    this.startTimeout = setInterval(() => {
+      this.time += 1000;
+    }, 1000);
   }
 
   @action.bound
@@ -126,11 +136,9 @@ class AppStore {
       return
     }
 
-    if(!this.gameStarted) {
+    if (!this.gameStarted) {
       this.gameStarted = true;
-      this.startTimeout = setInterval(() => {
-        this.time += 1000;
-      },1000);
+      this.startTimer();
     }
 
     const {field, isMarking, openField, setGameOver, checkWin} = this;
@@ -213,7 +221,7 @@ class AppStore {
         [i + 1, j + 1],
       ].forEach(([k, l]) => {
         const currentField = field?.[k]?.[l];
-        if(currentField && currentField.marked) {
+        if (currentField && currentField.marked) {
           count++;
         }
       });
@@ -289,7 +297,7 @@ class AppStore {
   @action.bound
   setGameOver(state: boolean) {
     this.gameOver = state;
-    if(state) {
+    if (state) {
       clearInterval(this.startTimeout);
     }
   }

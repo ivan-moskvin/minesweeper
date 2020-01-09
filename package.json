@@ -11,13 +11,14 @@
     "@types/react": "^16.9.0",
     "@types/react-dom": "^16.9.0",
     "mobx": "^5.15.1",
+    "mobx-persist": "^0.4.1",
     "mobx-react": "^6.1.4",
     "node-sass": "^4.13.0",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
     "react-scripts": "3.3.0",
-    "typescript": "~3.7.2",
-    "serialize-javascript": "^2.1.1"
+    "serialize-javascript": "^2.1.1",
+    "typescript": "~3.7.2"
   },
   "scripts": {
     "start": "react-scripts start",
