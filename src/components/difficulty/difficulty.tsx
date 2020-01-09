@@ -17,22 +17,27 @@ const Difficulty: React.FunctionComponent<DifficultyProps> = ({
   }
 
   return (<div className='frame difficulty'>
-    Сложность:
-    <select name='difficulty'
-            className='difficulty__select'
-      onChange={handleChangeDifficulty}
-      value={difficulty.id}>
-      {Object.keys(DifficultyEnum).map(_ => {
-        return (
-          <option
-            className='difficulty__item'
-            key={DifficultyEnum[_].id}
-            value={DifficultyEnum[_].id}>
-            {DifficultyEnum[_].name}
-          </option>
-        );
-      })}
-    </select>
+    <div>
+      Сложность:
+      <select name='difficulty'
+              className='difficulty__select'
+              onChange={handleChangeDifficulty}
+              value={difficulty.id}>
+        {Object.keys(DifficultyEnum).map(_ => {
+          return (
+            <option
+              className='difficulty__item'
+              key={DifficultyEnum[_].id}
+              value={DifficultyEnum[_].id}>
+              {DifficultyEnum[_].name}
+            </option>
+          );
+        })}
+      </select>
+    </div>
+    <div className='difficulty__info'>
+      Зажать <strong>Shift</strong>,<br/> чтобы отметить мину<br/> и открыть цифру.
+    </div>
   </div>);
 };
 
