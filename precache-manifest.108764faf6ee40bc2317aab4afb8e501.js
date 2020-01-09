@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "c797f1151af288e3926402566c2bd19f",
+    "revision": "34b0ae0e498f2285418589986328e9e6",
     "url": "/minesweeper/index.html"
   },
   {
