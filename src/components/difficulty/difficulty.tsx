@@ -4,7 +4,7 @@ import './difficulty.scss';
 
 type DifficultyProps = {
   difficulty: DifficultyLevel;
-  setDifficulty: (difficulty: string) => {};
+  setDifficulty?: (difficulty: string) => {};
 }
 
 const Difficulty: React.FunctionComponent<DifficultyProps> = ({
@@ -13,7 +13,7 @@ const Difficulty: React.FunctionComponent<DifficultyProps> = ({
                                                               }) => {
 
   function handleChangeDifficulty(e: ChangeEvent<HTMLSelectElement>) {
-    setDifficulty(e.target.value);
+    setDifficulty?.(e.target.value);
   }
 
   return (<div className='frame difficulty'>
