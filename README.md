@@ -4,6 +4,10 @@ Press Shift and then:
 1. Click cell to mark
 2. Click number to open nearby cells
 
+## Where to play
+
+https://ivan-moskvin.github.io/minesweeper/
+
 ## Credits
 
 Icon set by: Sirea 
