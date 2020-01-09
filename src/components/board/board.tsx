@@ -7,11 +7,23 @@ import {useStores} from '../../stores';
 import {IBlock} from '../../types/IBlock';
 import useKeyPress from '../../hooks/use-key-press';
 import Counter from '../counter/counter';
+import Difficulty from '../difficulty/difficulty';
 
 const Board = () => {
   const isControlKeyPressed = useKeyPress('Shift');
   const {AppStore} = useStores();
-  const {minesCount, time, field, win, gameOver, checkClosedBlock, restartGame, setMarkingState} = AppStore;
+  const {
+    minesCount,
+    time,
+    field,
+    win,
+    gameOver,
+    difficulty,
+    checkClosedBlock,
+    restartGame,
+    setMarkingState,
+    setDifficulty
+  } = AppStore;
 
   setMarkingState(isControlKeyPressed);
 
@@ -48,6 +60,10 @@ const Board = () => {
             )
           }
         </div>
+        <Difficulty
+          difficulty={difficulty}
+          setDifficulty={setDifficulty}
+        />
       </div>
     </div>
   )

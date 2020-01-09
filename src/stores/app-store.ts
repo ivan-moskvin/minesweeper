@@ -1,21 +1,25 @@
 import {action, observable, toJS} from 'mobx';
 import {IBlock} from "../types/IBlock";
+import {DifficultyEnum, DifficultyLevel} from '../ enums';
 
 const clearBlock: IBlock = {opened: false, state: 'empty', marked: false};
 
 class AppStore {
-  COLS = 16;
-  ROWS = 16;
-  MAX_MINES = 20;
-
+  @observable difficulty: DifficultyLevel = DifficultyEnum.intermediate;
   @observable field: any[] = [];
   @observable gameOver: boolean = false;
   @observable isMarking: boolean = false;
   @observable win: boolean = false;
   @observable gameStarted: boolean = false;
-  @observable minesCount: number = this.MAX_MINES;
+  @observable minesCount: number = 0;
   @observable time: number = 0;
   startTimeout: any;
+
+  @action.bound
+  setDifficulty(difficulty: string = 'beginner') {
+    this.difficulty = DifficultyEnum[difficulty];
+    this.restartGame();
+  }
 
   @action.bound
   setMarkingState(state: boolean) {
@@ -24,10 +28,10 @@ class AppStore {
 
   @action.bound
   generateField() {
-    const {COLS, ROWS, field} = this;
-    for (let i = 0; i < ROWS; i++) {
+    const { difficulty: {cols, rows}, field} = this;
+    for (let i = 0; i < rows; i++) {
       field.push([]);
-      for (let j = 0; j < COLS; j++) {
+      for (let j = 0; j < cols; j++) {
         field[i].push(clearBlock);
       }
     }
@@ -35,19 +39,19 @@ class AppStore {
 
   @action.bound
   placeMines() {
-    const {MAX_MINES, ROWS, COLS, field} = this;
-    for (let i = 0; i < MAX_MINES; i++) {
+    const { difficulty: {mines, rows, cols}, field} = this;
+    for (let i = 0; i < mines; i++) {
       const [randomRow, randomCol] = getClearCoords();
 
       this.field[randomRow][randomCol].state = 'mine';
     }
 
     function getClearCoords(): [number, number] {
-      let x = AppStore.getRandomInt(ROWS);
-      let y = AppStore.getRandomInt(COLS);
+      let x = AppStore.getRandomInt(rows);
+      let y = AppStore.getRandomInt(cols);
       while (field[x][y].state != 'empty') {
-        x = AppStore.getRandomInt(ROWS);
-        y = AppStore.getRandomInt(COLS);
+        x = AppStore.getRandomInt(rows);
+        y = AppStore.getRandomInt(cols);
       }
       return [x, y]
     }
@@ -55,9 +59,9 @@ class AppStore {
 
   @action.bound
   placeNumbers() {
-    const {COLS, ROWS, field} = this;
-    for (let i = 0; i < ROWS; i++) {
-      for (let j = 0; j < COLS; j++) {
+    const {difficulty: {cols, rows}, field} = this;
+    for (let i = 0; i < rows; i++) {
+      for (let j = 0; j < cols; j++) {
         if (field[i][j].state === 'mine') continue;
         field[i][j].minesCount = countMines(i, j);
         if (field[i][j].minesCount > 0) {
@@ -94,9 +98,9 @@ class AppStore {
 
   @action.bound
   openField() {
-    const {COLS, ROWS, field} = this;
-    for (let i = 0; i < ROWS; i++) {
-      for (let j = 0; j < COLS; j++) {
+    const {difficulty: {cols, rows}, field} = this;
+    for (let i = 0; i < rows; i++) {
+      for (let j = 0; j < cols; j++) {
         field[i][j].opened = true;
       }
     }
@@ -104,22 +108,13 @@ class AppStore {
   }
 
   @action.bound
-  clearField() {
-    const {COLS, ROWS, field} = this;
-    for (let i = 0; i < ROWS; i++) {
-      for (let j = 0; j < COLS; j++) {
-        field[i][j] = clearBlock;
-      }
-    }
-  }
-
-  @action.bound
   restartGame() {
     this.gameOver = false;
     this.win = false;
     this.time = 0;
-    this.minesCount = this.MAX_MINES;
-    this.clearField();
+    this.minesCount = this.difficulty.mines;
+    this.field = [];
+    this.generateField();
     this.placeMines();
     this.placeNumbers();
   }
@@ -320,9 +315,9 @@ class AppStore {
   }
 
   noClosedFieldsLeft = () => {
-    const {COLS, ROWS, field} = this;
-    for (let i = 0; i < ROWS; i++) {
-      for (let j = 0; j < COLS; j++) {
+    const {difficulty: {cols, rows}, field} = this;
+    for (let i = 0; i < rows; i++) {
+      for (let j = 0; j < cols; j++) {
         if (!field[i][j].opened
           && !field[i][j].marked) {
           return false;

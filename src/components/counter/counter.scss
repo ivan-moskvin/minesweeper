@@ -1,15 +1,12 @@
-@font-face {
-   font-family: 'digit';
-   src: url('./digit.ttf') format("truetype");
-}
-
 .counter {
    $bdw: 1px;
-   min-width: 40px;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   min-width: 30px;
    height: 56px;
    padding: 4px;
-   font-size: 70px;
-   text-align: center;
+   font-size: 55px;
    color: #f21100;
    font-family: 'digit', monospaced, serif;
    background-color: #000000;
