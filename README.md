@@ -4,14 +4,15 @@ https://ivan-moskvin.github.io/minesweeper/
 
 ## How to play
 
-Press Shift and then:
-1. Click cell to mark
-2. Click number to open nearby cells
+**Right click** to mark cell
+**Shift + left click** to open rest cells
 
 ## Credits
 
 Icon set by: Sirea 
 (http://www.rw-designer.com/user/5920) m.smejkalova@gmail.com
+
+Mouse icons made by [Freepik](https://www.flaticon.com/authors/freepik) from [www.flaticon.com](https://www.flaticon.com/)</a>
 
 Digit font by http://www.styleseven.com/
 

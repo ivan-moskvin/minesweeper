@@ -20,12 +20,13 @@ const Board = () => {
     gameOver,
     difficulty,
     checkClosedBlock,
+    markBlock,
     restartGame,
-    setMarkingState,
+    setShiftState,
     setDifficulty
   } = AppStore;
 
-  setMarkingState(isControlKeyPressed);
+  setShiftState(isControlKeyPressed);
 
   return (
     <div className='board'>
@@ -47,7 +48,8 @@ const Board = () => {
                   row.map((block: IBlock, j: number) => {
                     const {state, opened, marked, minesCount = 0} = block;
                     return (<Block
-                      handleClick={() => checkClosedBlock(i, j)}
+                      handleLeftClick={() => checkClosedBlock(i, j)}
+                      handleRightClick={() => markBlock(i, j)}
                       state={state}
                       opened={opened}
                       marked={marked}

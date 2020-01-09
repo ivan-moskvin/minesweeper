@@ -8,7 +8,8 @@ type BlockProps = {
   marked: boolean;
   minesCount: number;
   state: IBlockState;
-  handleClick?: () => {};
+  handleLeftClick?: () => {};
+  handleRightClick?: () => {};
 }
 
 const Block: React.FunctionComponent<BlockProps> = ({
@@ -16,13 +17,18 @@ const Block: React.FunctionComponent<BlockProps> = ({
                                                       opened,
                                                       marked,
                                                       minesCount,
-                                                      handleClick
+                                                      handleLeftClick,
+                                                      handleRightClick
                                                     }) => {
 
 
   return (
     <div
-      onClick={handleClick}
+      onClick={handleLeftClick}
+      onContextMenu={(e) => {
+        e.preventDefault();
+        handleRightClick?.();
+      }}
       className={`block${marked ? ' marked' : ''} ${opened ? `opened ${state} ${convertToWords(minesCount)}` : 'closed'}`}>
       {opened && minesCount > 0 && minesCount}
     </div>

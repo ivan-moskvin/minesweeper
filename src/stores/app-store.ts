@@ -9,7 +9,7 @@ class AppStore {
   @persist('object') @observable difficulty: DifficultyLevel = DifficultyEnum.intermediate;
   @persist('list') @observable field: any[] = [];
   @persist @observable gameOver: boolean = false;
-  @persist @observable isMarking: boolean = false;
+  @persist @observable shiftMode: boolean = false;
   @persist @observable win: boolean = false;
   @persist @observable gameStarted: boolean = false;
   @persist @observable minesCount: number = 0;
@@ -23,8 +23,8 @@ class AppStore {
   }
 
   @action.bound
-  setMarkingState(state: boolean) {
-    this.isMarking = state;
+  setShiftState(state: boolean) {
+    this.shiftMode = state;
   }
 
   @action.bound
@@ -141,15 +141,15 @@ class AppStore {
       this.startTimer();
     }
 
-    const {field, isMarking, openField, setGameOver, checkWin} = this;
+    const {field, shiftMode, openField, setGameOver, checkWin} = this;
     const currentField = field[i][j];
 
     // Если не в режиме маркировки
-    if (!isMarking) {
+    if (!shiftMode) {
       // Если промаркировано миной или открыто, то не даём нажать
       if (
         currentField.opened
-        || (currentField.marked && !isMarking)) {
+        || (currentField.marked && !shiftMode)) {
         return;
       }
 
@@ -169,15 +169,6 @@ class AppStore {
 
       // Нельзя маркировать пустые ячейки
       if (currentField.opened) return;
-
-      // В режиме маркировки переставляем флажок (вкл/выкл)
-      currentField.marked = !currentField.marked;
-
-      if (currentField.marked) {
-        this.minesCount--;
-      } else {
-        this.minesCount++;
-      }
 
       checkWin();
     }
@@ -291,6 +282,24 @@ class AppStore {
           openRecursive(k, l);
         }
       });
+    }
+  }
+
+  @action.bound
+  markBlock(i: number, j: number) {
+    const { field } = this;
+    const currentField = field[i][j];
+
+    if(currentField.opened) {
+      return;
+    }
+
+    currentField.marked = !currentField.marked;
+
+    if (currentField.marked) {
+      this.minesCount--;
+    } else {
+      this.minesCount++;
     }
   }
 

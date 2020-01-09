@@ -1,6 +1,7 @@
 import React, {ChangeEvent} from 'react';
 import {DifficultyEnum, DifficultyLevel} from '../../ enums';
 import './difficulty.scss';
+import Info from '../info/info';
 
 type DifficultyProps = {
   difficulty: DifficultyLevel;
@@ -35,9 +36,7 @@ const Difficulty: React.FunctionComponent<DifficultyProps> = ({
         })}
       </select>
     </div>
-    <div className='difficulty__info'>
-      Зажать <strong>Shift</strong>,<br/> чтобы отметить мину<br/> и открыть цифру.
-    </div>
+    <Info/>
   </div>);
 };
 

@@ -14,6 +14,10 @@ const App = () => {
     }
   });
 
+  document.onselectstart = function() {
+    return false;
+  };
+
   return (
     <Provider AppStore={AppStore}>
       <div className='App'>
