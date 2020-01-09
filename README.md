@@ -5,7 +5,8 @@ https://ivan-moskvin.github.io/minesweeper/
 ## How to play
 
 **Right click** to mark cell
-**Shift + left click** to open rest cells
+
+**Shift + Left click** to open rest cells by number
 
 ## Credits
 
