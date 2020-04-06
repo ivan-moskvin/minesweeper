@@ -1,4 +1,4 @@
-import {action, observable, toJS} from 'mobx';
+import {action, observable} from 'mobx';
 import {IBlock} from "../types/IBlock";
 import {DifficultyEnum, DifficultyLevel} from '../ enums';
 import {persist} from 'mobx-persist';
@@ -105,7 +105,6 @@ class AppStore {
         field[i][j].opened = true;
       }
     }
-    console.log(toJS(field));
   }
 
   @action.bound
