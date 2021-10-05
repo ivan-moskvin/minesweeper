@@ -2,6 +2,7 @@ import React, {ChangeEvent} from 'react';
 import {DifficultyEnum, DifficultyLevel} from '../../ enums';
 import './difficulty.scss';
 import Info from '../info/info';
+import {LANG} from "../../lang";
 
 type DifficultyProps = {
   difficulty: DifficultyLevel;
@@ -19,7 +20,7 @@ const Difficulty: React.FunctionComponent<DifficultyProps> = ({
 
   return (<div className='frame difficulty'>
     <div>
-      Сложность:
+      {LANG.DIFFICULTY}:
       <select name='difficulty'
               className='difficulty__select'
               onChange={handleChangeDifficulty}
