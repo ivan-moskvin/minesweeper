@@ -8,13 +8,10 @@ export type DifficultyLevel = {
   mines: number;
 };
 
-
-export type DifficultyName  = 'beginner' | 'intermediate' | 'professional';
-
 export const DifficultyEnum: {[id: string]: DifficultyLevel} = {
   'beginner': {
     id: 'beginner',
-    name: LANG.NOVICE,
+    name: LANG.BEGINNER,
     cols: 9,
     rows: 9,
     mines: 10
@@ -26,9 +23,9 @@ export const DifficultyEnum: {[id: string]: DifficultyLevel} = {
     rows: 16,
     mines: 40
   },
-  'professional': {
-    id: 'professional',
-    name: LANG.PRO,
+  'expert': {
+    id: 'expert',
+    name: LANG.EXPERT,
     cols: 30,
     rows: 16,
     mines: 99
