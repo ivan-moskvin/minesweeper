@@ -130,7 +130,7 @@ class AppStore {
 
   @action.bound
   checkClosedBlock(i: number, j: number) {
-    // После победы нет смысла отмечать ячейки
+    // No reason to mark cells after win
     if (this.win) {
       return
     }
@@ -143,9 +143,9 @@ class AppStore {
     const {field, shiftMode, openField, setGameOver, checkWin} = this;
     const currentField = field[i][j];
 
-    // Если не в режиме маркировки
+    // If not in 'shift' mode
     if (!shiftMode) {
-      // Если промаркировано миной или открыто, то не даём нажать
+      // If marked as mine or opened it cannot be checked
       if (
         currentField.opened
         || (currentField.marked && !shiftMode)) {
@@ -154,8 +154,8 @@ class AppStore {
 
       tryToOpen(i, j);
     } else {
-      // В режиме маркировки можно открыть
-      // все оставшиеся по цифре и количеству соседних мин
+      // In marking mode it is possible to open
+      // every remaining cells by digit or neighbor mines
       if (
         currentField.opened
         && currentField.state === 'closeToMine'
@@ -166,21 +166,21 @@ class AppStore {
         return;
       }
 
-      // Нельзя маркировать пустые ячейки
+      // Empty cells cannot be marked
       if (currentField.opened) return;
 
       checkWin();
     }
 
     /**
-     * Попытка открыть ячейку
+     * Cell open try
      * @param i
      * @param j
      */
     function tryToOpen(i: number, j: number) {
       const currentField = field[i][j];
 
-      // Нажатие на мину - конец игры
+      // Pushing on mine - game over
       if (currentField.state === 'mine') {
         openField();
         setGameOver(true);
@@ -193,7 +193,7 @@ class AppStore {
     }
 
     /**
-     * В окрестностях есть достаточное количество отмеченных флажком мин
+     * There is enough marked mines around
      * @param i
      * @param j
      */
@@ -220,7 +220,7 @@ class AppStore {
     }
 
     /**
-     * Открыть остальные ячейки вокруг данной
+     * Open rest cells around
      * @param i
      * @param j
      */
@@ -247,7 +247,7 @@ class AppStore {
     }
 
     /**
-     * Рекурсивно открыть ячейку и все смежные, кроме мин
+     * Recursively open cell and all connected except mines
      * @param i
      * @param j
      */

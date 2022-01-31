@@ -8,7 +8,7 @@ import {create} from 'mobx-persist';
 const App = () => {
   const hydrate = create();
   hydrate('app-store', AppStore).then(() => {
-    // Запускаем таймер после гидрации
+    // Init timer after hydration
     if(AppStore.gameStarted) {
       AppStore.startTimer();
     }
