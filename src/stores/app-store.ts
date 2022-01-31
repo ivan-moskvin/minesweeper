@@ -285,6 +285,22 @@ class AppStore {
   }
 
   @action.bound
+  checkWin() {
+    if (
+        this.minesCount === 0
+        && this.noClosedFieldsLeft()
+        && !this.gameOver
+    ) {
+      this.win = true;
+      clearInterval(this.startTimeout);
+
+      return;
+    }
+
+    this.win = false;
+  }
+
+  @action.bound
   markBlock(i: number, j: number) {
     const { field } = this;
     const currentField = field[i][j];
@@ -300,6 +316,8 @@ class AppStore {
     } else {
       this.minesCount++;
     }
+
+    this.checkWin();
   }
 
   @action.bound
@@ -314,21 +332,6 @@ class AppStore {
     return Math.floor(Math.random() * Math.floor(max));
   }
 
-  @action.bound
-  checkWin() {
-    if (
-      this.minesCount === 0
-      && this.noClosedFieldsLeft()
-      && !this.gameOver
-    ) {
-      this.win = true;
-      clearInterval(this.startTimeout);
-
-      return;
-    }
-
-    this.win = false;
-  }
 
   noClosedFieldsLeft = () => {
     const {difficulty: {cols, rows}, field} = this;
