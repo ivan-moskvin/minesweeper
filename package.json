@@ -14,7 +14,6 @@
     "mobx": "^5.15.4",
     "mobx-persist": "^0.4.1",
     "mobx-react": "^6.1.8",
-    "node-sass": "^7.0.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-scripts": "3.4.1",
@@ -45,6 +44,7 @@
     ]
   },
   "devDependencies": {
-    "gh-pages": "^3.2.3"
+    "gh-pages": "^3.2.3",
+    "sass": "^1.52.2"
   }
 }
