@@ -5,6 +5,6 @@ import {DifficultyEnum} from '../../ enums';
 
 test('renders difficulty', () => {
   const { getByDisplayValue } = render(<Difficulty difficulty={DifficultyEnum.beginner} />);
-  const selectElement = getByDisplayValue("Новичок") as HTMLSelectElement;
+  const selectElement = getByDisplayValue(DifficultyEnum.beginner.name) as HTMLSelectElement;
   expect(selectElement.value).toBe('beginner');
 });
